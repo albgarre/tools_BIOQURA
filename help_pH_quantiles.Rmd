@@ -1,0 +1,61 @@
+---
+title: "Untitled"
+author: "Alberto"
+date: "28/5/2019"
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Análisis estadístico de los cuantiles del pH
+
+Debido a la variabilidad de los productos, es prácticamente imposible asegurar que ningún producto dentro de un lote tenga un pH superior al admisible (p.ej. el pH que permita el crecimiento de *Listeria*). Por ello, en el contexto del análisis de riesgo, es importante conocer la probabilidad de que un producto tenga un pH superior al límite.
+
+Esta herramienta permite estimar, en base a una serie de mediciones, la proporción de muestras con un pH superior al admisible. El cálculo está basado en la hipótesis de que el pH de las muestras sigue una distribución normal con varianza y media desconocidas (ver **Detalles del análisis estadístico**).
+
+## Descripción de los parámetros
+
+- **pH medio**: media del pH medido en todas las muestras (calculado como PROMEDIO en Excel).
+- **Desv. standard del pH**: desviación estandard de las medidas (calculado como DESVEST en Excel).
+- **Número de medidas**: número de muestras analizadas.
+- **pH máximo admisible**: pH definido como máximo admisible (p.ej. para *Listeria* el pH máximo admisible para crecimiento es 4,4).
+
+## Resultados
+
+Los resultados reportados son:
+
+- La proporción estimada de muestras con un pH superior a la admisible.
+- El número de muestras con un pH superior al límite por cada mil productos.
+- Un gráfico de densidad de probabilidad para la proporción de muestras con un pH superior al admisible.
+
+## Detalles del análisis estadístico
+
+Sea $X$ una variable aleatoria con un media $\mu$ y varianza $\sigma^2$, ambas desconocidas. Una muestra aleatoria $X_1, X_2,...,X_n$ de tamaño $n$ de $X$ cumple las siguientes propiedades:
+
+- $\bar{X} = \sum_{i=1}^n{X_i}$ y $s^2 = \frac{\sum_{i=1}^n{(X_i - \bar{X})^2}}{n-1}$ son independientes.
+- el cociente $(n-1)s^2/\sigma^2$ sigue una distribución $\chi^2_{n-1}$.
+- el cociente $\frac{\bar{X}-\mu}{s/\sqrt(n)}$ sigue una distribución t de Student con $n-1$ grados de libertad.
+
+A traves del muestreo intentamos estimar ambas variables, la media muestral y su varianza. Por lo tanto, a la hora de estimar la proporción de muestras con un pH superior al límite, la incertidumbre en la estimación de ambas variables se debe de tener en cuenta. Esta herramienta utiliza simulaciones de Monte Carlo para ello:
+
+1. Se generan 2000 valores aleatorios de una distribución t de Student con $n-1$ grados de libertad ($t_i; i=1,...,2000$).
+2. Se genera una muestra de la media $\mu_i = \frac{t_i \cdot s}{\sqrt{n}} + \bar{X}$.
+3. Se generan 2000 valores aleatorios de una distribución $\chi^2$ con $n-1$ grados de libertad ($\chi^2_i; i = 1,...,2000$).
+4. Se simula la varianza como $\sigma^2_i = (n-1) \frac{s^2}{\chi^2_{i}}$.
+5. Para cada par ${ \mu_i, \sigma^2_i}$ se genera una muestra de 5000 valores aleatorios de acuerdo a una distribución normal con parámetros ${ \mu_i, \sigma^2_i}$.
+6. De la muestra aleatoria simulada, se comprueba cuántos tienen un pH superior al límite ($n_{pos}$) y cuantos no ($n_{net}$).
+7. La proporción de productos con un pH superior al límite se estima como $\frac{n_{pos}}{n_{pos} + n_{neg}}$.
+
+
+
+
+
+
+
+
+
+
+
+
