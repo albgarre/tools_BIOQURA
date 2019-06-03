@@ -14,6 +14,7 @@ dashboardPage(
     dashboardHeader(title = "BIOQURA"),
     dashboardSidebar(
         sidebarMenu(
+            menuItem("Welcome", tabName = "welcome"),
             menuItem("T101: IC proporcion positivos", tabName = "prop_test", icon = icon("android")),
             menuItem("T102: Muestras con aw > límite", tabName = "aw_quantiles", icon = icon("pencil")),
             menuItem("T103: Muestra con pH > límite", tabName = "pH_quantiles", 
@@ -61,6 +62,13 @@ dashboardPage(
             #         )
             #         
             # ),
+            tabItem(tabName = "welcome",
+                    fluidRow(
+                        box(title = NULL, width = 12,
+                            withMathJax(includeMarkdown("welcome.md"))
+                            )
+                    )
+                    ),
             tabItem(tabName = "pH_quantiles",
                     fluidRow(
                         box(title = NULL, width = 12, collapsible = TRUE,
