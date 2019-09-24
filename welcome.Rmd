@@ -24,11 +24,18 @@ Dentro de las actividades de la red BIOQURA, se decidió desarrollar una serie d
 
 ## Sobre BIOQURA
 
-BIOQURA es una red de colaboración entre grupos de investigación españoles. Esta red la componen:
+La red BIOQURA se creo con el objetivo de desarrollar la estructura necesaria para llevar a cabo una priorización y evaluación de riesgo biológicos cuantitativa en España. Esta integrada por investigadores de distintos centros de investigación:
 
-- Universidad Politécnica de Cartagena.
-- Universidad de Córdoba.
-- ...
+- Universidad Politécnica de Cartagena
+- Universidad de León
+- Universidad de Barcelona
+- Universidad de Zaragoza
+- Universidad de Córdoba
+- Instituto de Agroquímica y Tecnología de Alimentos IATA - CSIC
+- Centro de Edafología y Biología Aplicada del Segura CEBAS - CSIC
+- Centro Nacional de Tecnología y Seguridad de Alimentos (CNTA)
+- Tecnalia Research & Innovation
+- Agencia Española de Seguridad Alimentaria y Nutrición (AESAN)
 
 ## Contacto
 
