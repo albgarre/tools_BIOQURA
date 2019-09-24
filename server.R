@@ -93,8 +93,8 @@ shinyServer(function(input, output) {
     
     output$proportion_limit <- renderText({
         
-        prior_alpha <- 2
-        prior_beta <- 2
+        prior_alpha <- 1
+        prior_beta <- 1
         n_positives <- input$n_positive
         n_negatives <- input$n_negative
         # alpha <- 1 - input$conf_prop
@@ -107,8 +107,8 @@ shinyServer(function(input, output) {
     
     output$posteriors_proportions <- renderPlot({
         
-        prior_alpha <- 2
-        prior_beta <- 2
+        prior_alpha <- 1
+        prior_beta <- 1
         n_positives <- input$n_positive
         n_negatives <- input$n_negative
         # alpha <- 1 - input$conf_prop

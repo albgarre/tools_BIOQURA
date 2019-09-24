@@ -48,3 +48,5 @@ $$
 
 Finalmente, el intervalo de confianza para $p$ se puede calcular de acuerdo a los cuantiles de la distribución Beta.
 
+En esta aplicación, se utiliza $\alpha = 1$ y $\beta = 1$ en la distribución a-priori, lo que equivale a una distribución uniforme.
+

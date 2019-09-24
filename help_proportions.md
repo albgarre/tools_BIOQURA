@@ -73,3 +73,6 @@ muestras negativas.
 
 Finalmente, el intervalo de confianza para *p* se puede calcular de
 acuerdo a los cuantiles de la distribución Beta.
+
+En esta aplicación, se utiliza *α* = 1 y *β* = 1 en la distribución
+a-priori, lo que equivale a una distribución uniforme.
