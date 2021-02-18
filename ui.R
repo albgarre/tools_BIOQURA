@@ -5,63 +5,64 @@ options(shiny.reactlog=TRUE)
 
 library(shiny)
 library(shinydashboard)
+library(shinydashboardPlus)
 library("shinyIncubator")
 library(markdown)
 
 ## App
 
-dashboardPage(
-    dashboardHeader(title = "BIOQURA"),
+title <- tags$a(href = "https://www.aesan.gob.es/AECOSAN/web/home/aecosan_inicio.htm",
+                tags$img(src = "logo3.jpg", height = "50", width = "50"),
+                tags$img(src = "logo-bioqura.png", height = "50", width = "120"))
+
+dashboardPagePlus(
+    skin = "black",
+    md = TRUE,
+    rightsidebar = rightSidebar(
+        rightSidebarTabContent(
+            id = 1,
+            icon = "desktop",
+            title = "Idioma",
+            active = TRUE,
+            "Placeholder language picker"
+            # skinSelector()
+        )
+    ),
+    dashboardHeaderPlus(
+        # left_menu = tagList(
+        #     tags$img(src = "./www/logo2.jpg")
+        # ),
+        title = title,
+        # title = tags$a(href='http://mycompanyishere.com',
+        #        tags$img(src='aesanLogo.jpg')),
+        enable_rightsidebar = TRUE),
     dashboardSidebar(
+        # div(tags$image(src = "aesanLogo.jpg", height = "55px",width="232px")),
+        # tags$image(src = "aesanLogo.jpg", height = "55px",width="232px"),
+        # "AESAN logo",
         sidebarMenu(
             menuItem("Welcome", tabName = "welcome"),
             menuItem("T101: IC proporcion positivos", tabName = "prop_test", icon = icon("android")),
             menuItem("T102: Muestras con aw > límite", tabName = "aw_quantiles", icon = icon("pencil")),
             menuItem("T103: Muestra con pH > límite", tabName = "pH_quantiles", 
                      icon = icon("stats", lib = "glyphicon")),
+            menuItem("T201: Muestras infinitas", tabName = "infinite_chicken"),
+            menuItem("T202: Muestras finita", tabName = "finite_chicken"),
             menuItem("Github page", icon = icon("github"),
                      href = "https://github.com/albgarre/tools_BIOQURA")
         )
     ),
     dashboardBody(
+        useShinyFeedback(),
         tabItems(
-            # tabItem(tabName = "pH_test",
-            #         fluidRow(
-            #             box(title = NULL, width = 12, collapsible = TRUE,
-            #                 withMathJax(includeMarkdown("help_pH_Ttest.md"))
-            #                 )
-            #         ),
-            #         fluidRow(
-            #             box(title = "Mediciones de pH", status = "primary", solidHeader = TRUE,
-            #                 matrixInput("input_pH", "pH (los botones añaden o eliminar filas)", 
-            #                             data = data.frame(round(rnorm(20, 4, 1), 1))
-            #                             )
-            #                 ),
-            #             box(title = "Resumen datos introducidos", status = "success", solidHeader = TRUE,
-            #                 plotOutput("histogram_data"),
-            #                 tableOutput("summary_data")
-            #             )
-            #             
-            #         ),
-            #         fluidRow(
-            #             box(title = "Parámetros del test estadístico", status = "primary", solidHeader = TRUE,
-            #                 numericInput("ph_test", "pH límite:", 4.4, min = 0, max = 12, step = 1e-2),
-            #                 numericInput("alpha_test", "Límite de confianza:", 0.05, min = 0, max = 1,
-            #                              step = 1e-2)
-            #             ),
-            #             box(title = "Test estadístico", status = "success", solidHeader = TRUE,
-            #                 tags$h3("One sample Student's t-Test"),
-            #                 tableOutput("test_pH")
-            #                 )
-            #         ),
-            #         fluidRow(
-            #             box(title = "Resumen del test", status = "danger", solidHeader = TRUE,
-            #                 h3(textOutput("p_value")),
-            #                 plotOutput("t_distrib")
-            #                 )
-            #         )
-            #         
-            # ),
+            tabItem(tabName = "finite_chicken",
+                    fluidRow(
+                        finite_sizeUI("finite_sample")
+                    )
+                    ),
+            tabItem(tabName = "infinite_chicken",
+                    infiniteAppUI("infinite_chicken")
+            ),
             tabItem(tabName = "welcome",
                     fluidRow(
                         box(title = NULL, width = 12,

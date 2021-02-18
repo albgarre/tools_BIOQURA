@@ -2,14 +2,32 @@
 ## Load libraries
 
 library(shiny)
+library(shinydashboardPlus)
 library("shinyIncubator")
 library(tidyverse)
 library(broom)
+library(shinyFeedback)
 
 source("stat_functions.R")
+source("./R/infinite_sample_size.R")
+source("./R/infinite_CI.R")
+source("./R/infinite_size_app.R")
+
+#----------------------------------------------------------------------------
 
 shinyServer(function(input, output) {
     
+    ## Muestras infinitas de pollos
+    
+    infiniteAppServer("infinite_chicken")
+    
+    # infiniteServer("infinite_chicken")
+    # CIinfiniteServer("CI_infinite_chicken")
+    
+    ## Muestras finitas de pollos
+    
+    finite_sizeServer("finite_sample")
+
     ## Test of proportion of samples with a pH higher than a threshold
     
     pH_quantile_data <- eventReactive(input$launch_quantile, {
@@ -130,21 +148,7 @@ shinyServer(function(input, output) {
             theme(legend.position = "none") +
             xlab("Proporcion de muestras positivas") + 
             ylab("Densidad de probabilidad")
-            
-        
-        # tibble(x = seq(0, 1, length = 100),
-        #        prior = dbeta(x, prior_alpha, prior_beta),
-        #        posterior = dbeta(x, prior_alpha + n_positives, prior_beta + n_negatives)
-        # ) %>%
-        #     gather(distrib, y, -x) %>%
-        #     ggplot() +
-        #     geom_line(aes(x, y, colour = distrib, linetype = distrib)) +
-        #     geom_vline(xintercept = qbeta(1-alpha, prior_alpha + n_positives, prior_beta + n_negatives),
-        #                linetype = 2) +
-        #     geom_text(aes(x = qbeta(1-alpha, prior_alpha + n_positives, prior_beta + n_negatives),
-        #                   y = 1, 
-        #                   label = paste0("Confidence value: ", round(qbeta(1-alpha, prior_alpha + n_positives, prior_beta + n_negatives), 3))), 
-        #               hjust = 0)
+
     })
     
     
