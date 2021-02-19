@@ -8,6 +8,7 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library("shinyIncubator")
 library(markdown)
+library(dashboardthemes)
 
 ## App
 
@@ -16,7 +17,7 @@ title <- tags$a(href = "https://www.aesan.gob.es/AECOSAN/web/home/aecosan_inicio
                 tags$img(src = "logo-bioqura.png", height = "50", width = "120"))
 
 dashboardPagePlus(
-    skin = "black",
+    # skin = "black",
     md = TRUE,
     rightsidebar = rightSidebar(
         rightSidebarTabContent(
@@ -29,36 +30,32 @@ dashboardPagePlus(
         )
     ),
     dashboardHeaderPlus(
-        # left_menu = tagList(
-        #     tags$img(src = "./www/logo2.jpg")
-        # ),
         title = title,
-        # title = tags$a(href='http://mycompanyishere.com',
-        #        tags$img(src='aesanLogo.jpg')),
         enable_rightsidebar = TRUE),
+    
     dashboardSidebar(
-        # div(tags$image(src = "aesanLogo.jpg", height = "55px",width="232px")),
-        # tags$image(src = "aesanLogo.jpg", height = "55px",width="232px"),
-        # "AESAN logo",
         sidebarMenu(
             menuItem("Welcome", tabName = "welcome"),
+            hr(),
             menuItem("T101: IC proporcion positivos", tabName = "prop_test", icon = icon("android")),
             menuItem("T102: Muestras con aw > límite", tabName = "aw_quantiles", icon = icon("pencil")),
             menuItem("T103: Muestra con pH > límite", tabName = "pH_quantiles", 
                      icon = icon("stats", lib = "glyphicon")),
             menuItem("T201: Muestras infinitas", tabName = "infinite_chicken"),
-            menuItem("T202: Muestras finita", tabName = "finite_chicken"),
+            menuItem("T202: Muestras finitas", tabName = "finite_chicken"),
+            hr(),
             menuItem("Github page", icon = icon("github"),
                      href = "https://github.com/albgarre/tools_BIOQURA")
         )
     ),
     dashboardBody(
+        shinyDashboardThemes(
+            theme = "grey_dark"
+        ),
         useShinyFeedback(),
         tabItems(
             tabItem(tabName = "finite_chicken",
-                    fluidRow(
-                        finite_sizeUI("finite_sample")
-                    )
+                    finite_sizeUI("finite_sample")
                     ),
             tabItem(tabName = "infinite_chicken",
                     infiniteAppUI("infinite_chicken")

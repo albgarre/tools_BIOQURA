@@ -20,10 +20,7 @@ shinyServer(function(input, output) {
     ## Muestras infinitas de pollos
     
     infiniteAppServer("infinite_chicken")
-    
-    # infiniteServer("infinite_chicken")
-    # CIinfiniteServer("CI_infinite_chicken")
-    
+
     ## Muestras finitas de pollos
     
     finite_sizeServer("finite_sample")
