@@ -35,14 +35,17 @@ dashboardPagePlus(
     
     dashboardSidebar(
         sidebarMenu(
-            menuItem("Welcome", tabName = "welcome"),
+            menuItem("Welcome", tabName = "welcome", icon = icon("home")),
             hr(),
-            menuItem("T101: IC proporcion positivos", tabName = "prop_test", icon = icon("android")),
-            menuItem("T102: Muestras con aw > límite", tabName = "aw_quantiles", icon = icon("pencil")),
-            menuItem("T103: Muestra con pH > límite", tabName = "pH_quantiles", 
-                     icon = icon("stats", lib = "glyphicon")),
-            menuItem("T201: Muestras infinitas", tabName = "infinite_chicken"),
-            menuItem("T202: Muestras finitas", tabName = "finite_chicken"),
+            menuItem("BIOQURA", icon = icon("calculator"),
+                     menuSubItem("T101: IC proporcion positivos", tabName = "prop_test"),
+                     menuSubItem("T102: Muestras con aw > límite", tabName = "aw_quantiles"),
+                     menuSubItem("T103: Muestra con pH > límite", tabName = "pH_quantiles")
+                     ),
+            menuItem("Lagomorfos", icon = icon("drumstick-bite"),
+                     menuSubItem("T201: Muestras infinitas", tabName = "infinite_chicken"),
+                     menuSubItem("T202: Muestras finitas", tabName = "finite_chicken")
+                     ),
             hr(),
             menuItem("Github page", icon = icon("github"),
                      href = "https://github.com/albgarre/tools_BIOQURA")
