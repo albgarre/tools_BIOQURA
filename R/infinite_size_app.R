@@ -18,26 +18,45 @@ infiniteAppUI <- function(id, width = 6) {
     
     fluidPage(
         fluidRow(
-            jumbotron(button = FALSE, 
-                      "Herramientas para el diseño del tamaño muestral para muestras finitas", 
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In blandit, elit non lacinia pellentesque, ex felis maximus magna, in faucibus tellus erat eu odio. Fusce at sollicitudin justo, non fermentum risus. Aenean eu ipsum id leo suscipit hendrerit. Integer pellentesque vulputate elit cursus auctor. Integer sed mi magna. Fusce malesuada dictum eleifend. Fusce egestas eu est vitae scelerisque. Donec ullamcorper ac urna sit amet porttitor. Curabitur ultricies tortor vitae ligula ultrices placerat. Aliquam erat volutpat. Integer mauris libero, feugiat sit amet bibendum ac, cursus nec est. Aliquam at dapibus massa. Aliquam cursus est sit amet commodo commodo. Nunc euismod, nulla eget varius mattis, erat nibh pretium quam, sit amet imperdiet neque ex ac nisi. Ut bibendum pharetra arcu vel vulputate. Praesent elementum mi purus, sit amet auctor nisi congue a.
-
-Vestibulum molestie neque quis metus pretium, sit amet consequat augue gravida. Praesent dapibus lobortis quam. Proin malesuada convallis libero. Maecenas sit amet tellus facilisis, cursus massa sit amet, convallis nunc. Etiam mi sem, aliquam at ipsum in, rutrum porttitor eros. Nunc eu arcu quis lacus finibus fringilla. Pellentesque a justo finibus, fermentum ipsum non, condimentum ipsum. Aliquam ultricies odio ut sem congue dignissim. Pellentesque commodo nibh luctus ligula euismod, non tristique eros elementum. Phasellus eget ornare lorem, in mollis sapien. Quisque et accumsan diam, nec efficitur turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec ultrices, mi non placerat elementum, nisi ex dictum enim, vel tempor nunc ligula aliquet nisi.
-
-Donec a lectus metus. Donec tincidunt nibh ac est venenatis faucibus. Sed a augue laoreet, ullamcorper sapien sed, mollis diam. Maecenas ut urna at ante pretium dictum nec a ligula. Nullam placerat erat turpis, sed semper nisi dictum vel. Donec auctor tincidunt lorem congue tristique. Phasellus mattis lacus non arcu porttitor blandit. Duis gravida neque elementum maximus tristique. Nullam ut est ornare, ultricies purus sit amet, faucibus sapien."),
+            boxPlus(footer_padding = FALSE, width = 12,
+                    h2("Herramientas para el diseño del muestreo para poblaciones infinitas"),
+                    tags$p("El Reglamento de Ejecución (UE) 2019/627 establece de forma general que todas las aves sacrifi-
+cadas deben de ser sometidas a inspección post mortem por parte de la autoridad, lo cual es de
+aplicación por extensión al caso de los lagomorfos. Sin embargo, también se recoge la posibilidad
+de que las autoridades competentes decidan someter a la inspección una muestra representativa de
+aves o lagomorfos, siempre que se cumplan una serie de requisitos adicionales. De este modo se ha
+realizado un estudio conducente a proporcionar un método para establecer lo que sería una muestra
+representativa para someter a inspección post mortem por muestreo a estos tipos de animales."),
+                    tags$p("El Comité Científico de la Agencia Española de Seguridad
+                                 Alimentaria y Nutrición (AESAN) realizó un informe proponiendo 
+                                 una metodología para el diseño del tamaño de muestra (AESAN-2020-006),
+                                 así como para determinar si los resultados del muestreo indican que el 
+                                 sistema está fuera de control."),
+                    tags$p("En este informe se propusieron dos métodos: una para el que
+                    la población puede considerarse infinita, y un segundo para casos
+                    en que no. Esta aplicación incluye la metodología estadística
+                    desarrollada para el primer caso: cuando la muestra no puede considerarse infinita.
+                    Esta metodología sólo es válido para algunos tamaños poblacionales y muestrales.
+                    Por eso, incluye una herramienta para calcular el tamaño muestral mínimo para una población dada.")
+            )
         ),
         fluidRow(
             infiniteUI(NS(id, "infinite_chicken")),
             CIinfiniteUI(NS(id, "CI_infinite_chicken"))
         ),
         fluidRow(
-            column(6, panel_div(class_type = "success", panel_title = "Referencias",
-                                content = tagList(
-                                    downloadLink(NS(id, "get_informe"), "Informe del comité científico")
-                                ))),
-            column(6, panel_div("success", "Contacto",
-                                HTML("Email Me: <a href='mailto:placeholder.aesan@gmail.com?Subject=Shiny%20Help' target='_top'>Placeholder AESAN</a>")))
-        ),
+            boxPlus(
+                title = "Referencias", footer_padding = FALSE,
+                closable = FALSE,
+                downloadLink(NS(id, "get_informe"), 
+                             "Informe del comité científico de AESAN (AESAN-2020-006)")
+            ),
+            boxPlus(
+                title = "Contacto", footer_padding = FALSE,
+                closable = FALSE,
+                HTML("Email Me: <a href='mailto:placeholder.aesan@gmail.com?Subject=Shiny%20Help' target='_top'>Placeholder AESAN</a>")
+            )
+        )
     )
 }
 
@@ -47,7 +66,13 @@ infiniteAppServer <- function(id) {
         
         infiniteServer("infinite_chicken")
         CIinfiniteServer("CI_infinite_chicken")
-
+        
+        output$get_informe <- downloadHandler(
+            filename = "AESAN REVISTA comite_cientifico_32.pdf",
+            content = function(file) {
+                file.copy("AESAN REVISTA comite_cientifico_32.pdf", file)
+            }
+        )
     })
     
 }

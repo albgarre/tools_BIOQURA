@@ -7,10 +7,17 @@ library(shinyFeedback)
 infiniteUI <- function(id, width = 6) {
     
     widgetUserBox(
-        title = "Diseño del tamaño muestral para una muestra infinita",
+        title = tagList("Tamaño muestral mínimo para una población infinita",
+                        actionBttn(NS(id, "show_method"),
+                                   label = NULL,
+                                   style = "bordered",
+                                   icon = icon("info"),
+                                   size = "xs"
+                                   )
+                        ),
         type = 2,
         width = width,
-        color = "primary",
+        color = "olive",
         column(4,
                boxPad(
                    # color = "primary",
@@ -23,18 +30,29 @@ infiniteUI <- function(id, width = 6) {
                )
         ),
         column(8,
-               uiOutput(NS(id, "each_size")),
-               br(),
-               boxPad(textOutput(NS(id, "out_size")), color = "warning")
+               uiOutput(NS(id, "each_size"))
         ),
-        footer = tagList("Condición I: coeficiente de simetría < 1/3.",
-                         "Condición II: precisión del MOE")
+        # footer = tagList("Condición I: coeficiente de simetría < 1/3.",
+        #                  "Condición II: precisión del MOE"),
+        footer_padding = FALSE
     )
 }
 
 infiniteServer <- function(id) {
     
     moduleServer(id, function(input, output, session) {
+        
+        observeEvent(input$show_method,
+                     showModal(
+                         modalDialog(
+                             withMathJax(includeMarkdown("./R/help/method_infinite_size.md")),
+                             easyClose = TRUE,
+                             size = "l",
+                             footer = modalButton("Cerrar")
+                         )
+                     )
+                     
+        )
         
         size_1 <- reactive({
             p <- input$p
@@ -56,11 +74,23 @@ infiniteServer <- function(id) {
         })
         
         output$each_size <- renderUI({
+            
             tagList(
-                boxProfileItem(title = "According to condition I:", 
-                               description = size_1()),
-                boxProfileItem(title = "According to condition II:", 
-                               description = size_2())
+                fluidRow(
+                    valueBox(value = size_1(),
+                             # subtitle = "",
+                             subtitle = "Condición I",
+                             width = 6, color = "olive"),
+                    valueBox(value = size_2(),
+                             # subtitle = "",
+                             subtitle = "Condición II",
+                             width = 6, color = "olive")
+                ),
+                fluidRow(
+                    valueBox(value = max(c(size_1(), size_2())),
+                             subtitle = "Tamaño muestral mínimo", 
+                             width = 12, color = "yellow", icon = icon("vial")),
+                )
             )
         })
 

@@ -1,4 +1,5 @@
 
+library(tidyverse)
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
@@ -6,10 +7,17 @@ library(shinydashboardPlus)
 CIinfiniteUI <- function(id, width = 6) {
     
     widgetUserBox(
-        title = "Intervalo de confianza para una muestra infinita",
+        title = tagList("Intervalo de confianza para una muestra infinita",
+                        actionBttn(NS(id, "show_method"),
+                                   label = NULL,
+                                   style = "bordered",
+                                   icon = icon("info"),
+                                   size = "xs"
+                        )
+        ),
         type = 2,
         width = width,
-        color = "primary",
+        color = "olive",
         column(4,
                boxPad(
                    # color = "primary",
@@ -17,23 +25,32 @@ CIinfiniteUI <- function(id, width = 6) {
                                 1000, min = 0, step = 1),
                    numericInput(NS(id, "n_p"), "Número de decomisos", 
                                 10, min = 0, step = 1),
-                   numericInput(NS(id, "alpha"), "Límite de significación (alpha)", 
+                   numericInput(NS(id, "alpha"), "Nivel de significación (alpha)", 
                                 0.05, min = 0, max = 1, step = 0.01)
                )
         ),
         column(8,
-               boxPad(textOutput(NS(id, "CI_left")), color = "warning"),
-               br(),
-               boxPad(textOutput(NS(id, "CI_right")), color = "warning")
-               # boxPad(textOutput(NS(id, "cond_2")), color = "primary"
+               uiOutput(NS(id, "CI_results"))
         ),
-        footer = tagList("IC calculado de acuerdo al método de Wald.")
+        footer_padding = FALSE
     )
 }
 
 CIinfiniteServer <- function(id) {
     
     moduleServer(id, function(input, output, session) {
+        
+        observeEvent(input$show_method,
+                     showModal(
+                         modalDialog(
+                             withMathJax(includeMarkdown("./R/help/method_infinite_CI.md")),
+                             easyClose = TRUE,
+                             size = "l",
+                             footer = modalButton("Cerrar")
+                         )
+                     )
+                     
+        )
         
         CI <- reactive({
             
@@ -49,26 +66,42 @@ CIinfiniteServer <- function(id) {
             ci <- p + c(-1,1)*z*sqrt(p*q/n)
         })
         
-        output$CI_left <- renderText({
-            x <- CI()[1]
-            paste("Limite izquierdo del IC para p:",
-                  prettyNum(x, digits = 2),
-                  "(1 positivo cada",
-                  round(1/x),
-                  " muestras)")
+        output$CI_results <- renderUI({
+            
+            left <- CI()[1]
+            right <- CI()[2]
+            
+            tagList(
+                fluidRow(
+                    column(6,
+                           fluidRow(
+                               h3("Límite izquierdo")
+                               ),
+                           fluidRow(
+                               valueBox(value = prettyNum(left, digits = 2),
+                                        subtitle = paste("(1 positivo cada",
+                                                         round(1/left),
+                                                         " muestras)"),
+                                        width = 12,
+                                        color = "yellow")
+                           )
+                           ),
+                    column(6,
+                           fluidRow(
+                               h3("Límite derecho")
+                           ),
+                           fluidRow(
+                               valueBox(value = prettyNum(right, digits = 2),
+                                        subtitle = paste("(1 positivo cada",
+                                                         round(1/right),
+                                                         " muestras)"),
+                                        width = 12,
+                                        color = "yellow")
+                           )
+                           )
+                )
+            )
         })
-        
-        output$CI_right <- renderText({
-            x <- CI()[2]
-            paste("Limite derecho del IC para p:",
-                  prettyNum(x, digits = 2),
-                  "(1 positivo cada",
-                  round(1/x),
-                  " muestras)")
-        })
-        
-        
-        
     })
     
 }
