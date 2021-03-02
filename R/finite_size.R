@@ -93,12 +93,7 @@ find_the_c <- function(N, alpha, beta, k0, k1,
         
         upper <- new_iterate_rhs(niter, start_n, c, 
                              N, alpha, k0, k1)
-        
-        # print(paste("c:", c))
-        # print(paste("lower:", lower))
-        # print(paste("upper:", upper))
-        # print("++++")
-        
+
         if (lower < upper) {
             out <- list(c = c, lower = lower, upper = upper)
             return(out)
@@ -168,13 +163,13 @@ representativa para someter a inspección post mortem por muestreo a estos tipos
                                numericInput(NS(id, "N"), "Tamaño de la población", 
                                             1000, min = 0, step = 1),
                                numericInput(NS(id, "p_k1"), "Proporción máxima de positivos", 
-                                            0.03, min = 0, max = 1, step = 0.01),
+                                            0.03, min = 0, max = 1, step = 0.001),
                                numericInput(NS(id, "beta"), "Significación estadística del límite superior (beta)", 
-                                            .01, min = 0, max = 1, step = 0.01),
+                                            .01, min = 0, max = 1, step = 0.001),
                                numericInput(NS(id, "p_k0"), "Proporción mínima de positivos", 
-                                            0.01, min = 0, max = 1, step = 0.01),
+                                            0.01, min = 0, max = 1, step = 0.001),
                                numericInput(NS(id, "alpha"), "Significación estadística del límite inferior (alpha)", 
-                                            .05, min = 0, max = 1, step = 0.01),
+                                            .05, min = 0, max = 1, step = 0.001),
                                br(),
                                actionBttn(NS(id, "go_btn"), "Calcular",
                                           style = "bordered")
@@ -190,7 +185,8 @@ representativa para someter a inspección post mortem por muestreo a estos tipos
             boxPlus(
                 title = "Referencias", footer_padding = FALSE,
                 closable = FALSE,
-                downloadLink(NS(id, "get_informe"), "Informe del comité científico")
+                downloadLink(NS(id, "get_informe"), 
+                             "Informe del comité científico de AESAN (AESAN-2020-006)")
             ),
             boxPlus(
                 title = "Contacto", footer_padding = FALSE,
@@ -231,8 +227,8 @@ finite_sizeServer <- function(id) {
             find_the_c(N = input$N, 
                        alpha = input$alpha, 
                        beta = input$beta,
-                       k0 = input$p_k0*input$N, 
-                       k1 = input$p_k1*input$N,
+                       k0 = floor(input$p_k0*input$N), 
+                       k1 = floor(input$p_k1*input$N),
                        niter = 200, 
                        start_n = 0.1*input$N,
                        max_c = input$N)
@@ -253,7 +249,7 @@ finite_sizeServer <- function(id) {
                              width = 6, color = "yellow", icon = icon("chevron-left"))
                 ),
                 fluidRow(
-                    valueBox(value = results()$c+1,
+                    valueBox(value = results()$c,
                              subtitle = "Máximo número de positivos", 
                              width = 6, color = "yellow", icon = icon("vial")),
                 )
