@@ -90,6 +90,17 @@ infiniteServer <- function(id) {
                     valueBox(value = max(c(size_1(), size_2())),
                              subtitle = "Tamaño muestral mínimo", 
                              width = 12, color = "yellow", icon = icon("vial")),
+                ),
+                fluidRow(
+                    column(12,
+                           alert(status = "info",
+                                 "Si el tamaño muestral es mayor que ",
+                                 round(max(c(size_1(), size_2())), 0),
+                                 "se puede utilizar la herramienta T201.",
+                                 "En caso contrario, usar la herramienta T202."
+                           )
+                           )
+                    
                 )
             )
         })

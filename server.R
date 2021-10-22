@@ -18,6 +18,15 @@ source("./R/infinite_size_app.R")
 
 shinyServer(function(input, output) {
     
+    ## Descarga informe
+    
+    output$get_informe <- downloadHandler(
+        filename = "AESAN REVISTA comite_cientifico_32.pdf",
+        content = function(file) {
+            file.copy("AESAN REVISTA comite_cientifico_32.pdf", file)
+        }
+    )
+    
     ## Muestras infinitas de pollos
     
     infiniteAppServer("infinite_chicken")
@@ -25,8 +34,40 @@ shinyServer(function(input, output) {
     ## Muestras finitas de pollos
     
     finite_sizeServer("finite_sample")
+    
+    ## Video muestreos
+    
+    observeEvent(input$example_chicken_1,
+                 showModal(
+                     modalDialog(
+                         easyClose = TRUE,
+                         size = "l",
+                         footer = modalButton("Cerrar"),
+                         title = "Ejemplo muestras finitas",
+                         # HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/aQlTAznANDQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                         HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/FUZX2Q0EOsE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                     )
+                 )
+                 
+    )
+    
+    ## Comprobacion del tamaño
+    
+    infiniteServer("sample_size")
 
     ## Test of proportion of samples with a pH higher than a threshold
+    
+    observeEvent(input$show_method_ph,
+                 showModal(
+                     modalDialog(
+                         withMathJax(includeMarkdown("help_pH_quantiles.md")),
+                         easyClose = TRUE,
+                         size = "l",
+                         footer = modalButton("Cerrar")
+                     )
+                 )
+
+    )
     
     pH_quantile_data <- eventReactive(input$launch_quantile, {
         set.seed(1214)
@@ -74,6 +115,18 @@ shinyServer(function(input, output) {
     
     ## Test of proportion of samples with a aw higher than a threshold
     
+    observeEvent(input$show_method_aw,
+                 showModal(
+                     modalDialog(
+                         withMathJax(includeMarkdown("help_aw_quantiles.md")),
+                         easyClose = TRUE,
+                         size = "l",
+                         footer = modalButton("Cerrar")
+                     )
+                 )
+                 
+    )
+    
     aw_quantile_data <- eventReactive(input$launch_quantile_aw, {
         
         set.seed(1214)
@@ -106,6 +159,18 @@ shinyServer(function(input, output) {
     })
     
     ## Bayesian test of the proportions
+    
+    observeEvent(input$show_method_prop,
+                 showModal(
+                     modalDialog(
+                         withMathJax(includeMarkdown("help_proportions.md")),
+                         easyClose = TRUE,
+                         size = "l",
+                         footer = modalButton("Cerrar")
+                     )
+                 )
+                 
+    )
     
     output$proportion_limit <- renderText({
         

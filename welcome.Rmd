@@ -12,15 +12,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introducción
 
 
-El análisis de riesgos dentro de la seguridad alimentaria requiere la aplicación de métodos avanzados de análisis estadístico. La implementación de estos métodos a situaciones reales puede ser compleja y, en mucho casos, requiere conocimientos de programación y desarrollo de software. 
-
-Dentro de las actividades de la red BIOQURA, se decidió desarrollar una serie de aplicaciones de libre acceso para facilitar la aplicación de modernas técnicas estadísticas en el ámbito de la seguridad alimentaria. El resultado de este trabajo es esta aplicación web. 
+El análisis de riesgos, la estimación de la vida útil y el control dentro de la seguridad alimentaria requiere la aplicación de métodos relativamente avanzados de análisis estadístico. La implementación de estos métodos a situaciones reales puede ser compleja y, en mucho casos, requiere conocimientos de programación y desarrollo de software. Por esa razón, la Agencia Española de Seguridad Alimentaria y Nutrición (AESAN) ha implementado a través de la red BIOQURA un conjunto de herramientas de libre acceso para facilitar la aplicación de estos cálculos.
 
 ## Herramientas incluídas en esta aplicación
+
+Las herramientas están divididas en dos grupos. En primer lugar, la red BIOQURA desarrolló las siguientes herramientas para apoyar estudios de vida útil:
 
 - **T101: IC proporcion positivos** permite estimar la proporción de muestras positivas con respecto a un test (p.ej. presencia/ausencia de patógenos).
 - **T102: Muestras con aw > limite** calcula la proporción de muestras con una actividad del agua superior a un límite en base a un muestreo.
 - **T103: Muestras con pH > limite** calcula la proporción de muestras con un pH superior a un límite en base a un muestreo.
+
+Posteriormente, 
 
 ## Sobre BIOQURA
 

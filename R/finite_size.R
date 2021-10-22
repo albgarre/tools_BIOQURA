@@ -110,32 +110,34 @@ find_the_c <- function(N, alpha, beta, k0, k1,
 
 finite_sizeUI <- function(id, width = 6) {
     fluidPage(
-        fluidRow(
-            boxPlus(footer_padding = FALSE, width = 12,
-                    h2("Herramientas para el diseño del tamaño muestral para poblaciones finitas"),
-                    tags$p("El Reglamento de Ejecución (UE) 2019/627 establece de forma general que todas las aves sacrifi-
-cadas deben de ser sometidas a inspección post mortem por parte de la autoridad, lo cual es de
-aplicación por extensión al caso de los lagomorfos. Sin embargo, también se recoge la posibilidad
-de que las autoridades competentes decidan someter a la inspección una muestra representativa de
-aves o lagomorfos, siempre que se cumplan una serie de requisitos adicionales. De este modo se ha
-realizado un estudio conducente a proporcionar un método para establecer lo que sería una muestra
-representativa para someter a inspección post mortem por muestreo a estos tipos de animales."),
-                    tags$p("El Comité Científico de la Agencia Española de Seguridad
-                                 Alimentaria y Nutrición (AESAN) realizó un informe proponiendo 
-                                 una metodología para el diseño del tamaño de muestra (AESAN-2020-006),
-                                 así como para determinar si los resultados del muestreo indican que el 
-                                 sistema está fuera de control."),
-                    tags$p("En este informe se propusieron dos métodos: una para el que
-                                 la población puede considerarse infinita, y un segundo para casos
-                                 en que no. El primer método es más sencillo, aunque sólo es aplicable para
-                                 casos en que el tamaño muestral es mucho menor que el tamaño de la población.
-                                 La aplicación T201 incluye una herramienta para validar si el tamaño de la población
-                                 es lo suficientemente grande para poder considerarla infinita."),
-                    tags$p("Esta aplicación incluye la metodología estadística
-                                 desarrollada para el segundo caso: cuando la muestra no puede considerarse infinita.
-                                 Esta metodología es más general, aunque el método estadístico es más complejo.")
-            )
-        ),
+#         fluidRow(
+#             boxPlus(footer_padding = FALSE, width = 12,
+#                     h2("Herramientas para el diseño del tamaño muestral para poblaciones finitas"),
+#                     tags$p("El Reglamento de Ejecución (UE) 2019/627 establece de forma general que todas las aves sacrifi-
+# cadas deben de ser sometidas a inspección post mortem por parte de la autoridad, lo cual es de
+# aplicación por extensión al caso de los lagomorfos. Sin embargo, también se recoge la posibilidad
+# de que las autoridades competentes decidan someter a la inspección una muestra representativa de
+# aves o lagomorfos, siempre que se cumplan una serie de requisitos adicionales. De este modo se ha
+# realizado un estudio conducente a proporcionar un método para establecer lo que sería una muestra
+# representativa para someter a inspección post mortem por muestreo a estos tipos de animales."),
+#                     tags$p("El Comité Científico de la Agencia Española de Seguridad
+#                                  Alimentaria y Nutrición (AESAN) realizó un informe proponiendo 
+#                                  una metodología para el diseño del tamaño de muestra (AESAN-2020-006),
+#                                  así como para determinar si los resultados del muestreo indican que el 
+#                                  sistema está fuera de control."),
+#                     tags$p("En este informe se propusieron dos métodos: una para el que
+#                                  la población puede considerarse infinita, y un segundo para casos
+#                                  en que no. El primer método es más sencillo, aunque sólo es aplicable para
+#                                  casos en que el tamaño muestral es mucho menor que el tamaño de la población.
+#                                  La aplicación T201 incluye una herramienta para validar si el tamaño de la población
+#                                  es lo suficientemente grande para poder considerarla infinita."),
+#                     tags$p("Esta aplicación incluye la metodología estadística
+#                                  desarrollada para el segundo caso: cuando la muestra no puede considerarse infinita.
+#                                  Esta metodología es más general, aunque el método estadístico es más complejo."
+#                            ),
+#                     actionButton(NS(id, "example"), "Ejemplo")
+#             )
+#         ),
         fluidRow(
             widgetUserBox(
                 footer_padding = FALSE,
@@ -164,12 +166,12 @@ representativa para someter a inspección post mortem por muestreo a estos tipos
                                             1000, min = 0, step = 1),
                                numericInput(NS(id, "p_k1"), "Proporción máxima de positivos", 
                                             0.03, min = 0, max = 1, step = 0.001),
-                               numericInput(NS(id, "beta"), "Significación estadística del límite superior (beta)", 
+                               numericInput(NS(id, "beta"), "Significación estadística (beta)", 
                                             .01, min = 0, max = 1, step = 0.001),
-                               numericInput(NS(id, "p_k0"), "Proporción mínima de positivos", 
-                                            0.01, min = 0, max = 1, step = 0.001),
-                               numericInput(NS(id, "alpha"), "Significación estadística del límite inferior (alpha)", 
-                                            .05, min = 0, max = 1, step = 0.001),
+                               # numericInput(NS(id, "p_k0"), "Proporción mínima de positivos", 
+                               #              0.01, min = 0, max = 1, step = 0.001),
+                               # numericInput(NS(id, "alpha"), "Significación estadística del límite inferior (alpha)", 
+                               #              .05, min = 0, max = 1, step = 0.001),
                                br(),
                                actionBttn(NS(id, "go_btn"), "Calcular",
                                           style = "bordered")
@@ -180,20 +182,20 @@ representativa para someter a inspección post mortem por muestreo a estos tipos
                     )
                 )
             )
-        ),
-        fluidRow(
-            boxPlus(
-                title = "Referencias", footer_padding = FALSE,
-                closable = FALSE,
-                downloadLink(NS(id, "get_informe"), 
-                             "Informe del comité científico de AESAN (AESAN-2020-006)")
-            ),
-            boxPlus(
-                title = "Contacto", footer_padding = FALSE,
-                closable = FALSE,
-                HTML("Email Me: <a href='mailto:placeholder.aesan@gmail.com?Subject=Shiny%20Help' target='_top'>Placeholder AESAN</a>")
-            )
-        )
+        )# ,
+        # fluidRow(
+        #     boxPlus(
+        #         title = "Referencias", footer_padding = FALSE,
+        #         closable = FALSE,
+        #         downloadLink(NS(id, "get_informe"), 
+        #                      "Informe del comité científico de AESAN (AESAN-2020-006)")
+        #     ),
+        #     boxPlus(
+        #         title = "Contacto", footer_padding = FALSE,
+        #         closable = FALSE,
+        #         HTML("Email Me: <a href='mailto:placeholder.aesan@gmail.com?Subject=Shiny%20Help' target='_top'>Placeholder AESAN</a>")
+        #     )
+        # )
         
     )
     
@@ -203,6 +205,20 @@ representativa para someter a inspección post mortem por muestreo a estos tipos
 finite_sizeServer <- function(id) {
     
     moduleServer(id, function(input, output, session) {
+        
+        observeEvent(input$example,
+                     showModal(
+                         modalDialog(
+                             easyClose = TRUE,
+                             size = "l",
+                             footer = modalButton("Cerrar"),
+                             title = "Ejemplo muestras finitas",
+                             # HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/aQlTAznANDQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                             HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/FUZX2Q0EOsE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                         )
+                     )
+                     
+        )
         
         observeEvent(input$show_method,
                      showModal(
@@ -221,13 +237,15 @@ finite_sizeServer <- function(id) {
             feedbackDanger("p_k1", !between(input$p_k1, 0, 1), "Debe estar entre 0 y 1")
             feedbackDanger("p_k2", !between(input$p_k2, 0, 1), "Debe estar entre 0 y 1")
             feedbackDanger("N", !is.integer(input$N), "Debe ser un número entero")
-            feedbackDanger("alpha", !between(input$alpha, 0, 1), "Debe estar entre 0 y 1")
+            # feedbackDanger("alpha", !between(input$alpha, 0, 1), "Debe estar entre 0 y 1")
             feedbackDanger("beta", !between(input$beta, 0, 1), "Debe estar entre 0 y 1")
 
             find_the_c(N = input$N, 
-                       alpha = input$alpha, 
+                       # alpha = input$alpha, 
+                       alpha = 0.01, 
                        beta = input$beta,
-                       k0 = floor(input$p_k0*input$N), 
+                       # k0 = floor(input$p_k0*input$N), 
+                       k0 = floor(input$p_k1/3*input$N), 
                        k1 = floor(input$p_k1*input$N),
                        niter = 200, 
                        start_n = 0.1*input$N,
@@ -239,20 +257,30 @@ finite_sizeServer <- function(id) {
             
             tagList(
                 fluidRow(
-                    valueBox(value = results()$lower,
-                             # subtitle = "",
-                             subtitle = "Límite izquierdo del tamaño muestral",
-                             width = 6, color = "yellow", icon = icon("chevron-right")),
-                    valueBox(value = results()$upper,
-                             # subtitle = "",
-                             subtitle = "Límite derecho del tamaño muestral",
-                             width = 6, color = "yellow", icon = icon("chevron-left"))
-                ),
-                fluidRow(
+                    valueBox(value = round(mean(c(results()$lower, results()$upper), 0)),
+                             subtitle = "Tamaño muestral",
+                             width = 6, color = "yellow",
+                             icon = icon("search")
+                    ),
                     valueBox(value = results()$c,
-                             subtitle = "Máximo número de positivos", 
-                             width = 6, color = "yellow", icon = icon("vial")),
+                             subtitle = "Máximo número de positivos (c)", 
+                             width = 6, color = "yellow", icon = icon("vial"))
                 )
+                # fluidRow(
+                #     valueBox(value = results()$lower,
+                #              # subtitle = "",
+                #              subtitle = "Límite izquierdo del tamaño muestral",
+                #              width = 6, color = "yellow", icon = icon("chevron-right")),
+                #     valueBox(value = results()$upper,
+                #              # subtitle = "",
+                #              subtitle = "Límite derecho del tamaño muestral",
+                #              width = 6, color = "yellow", icon = icon("chevron-left"))
+                # ),
+                # fluidRow(
+                #     valueBox(value = results()$c,
+                #              subtitle = "Máximo número de positivos", 
+                #              width = 6, color = "yellow", icon = icon("vial")),
+                # )
             )
         })
         
